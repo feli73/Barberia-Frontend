@@ -62,12 +62,7 @@ useEffect(() => {
       if (response.ok) {
         const mapped = data.payload.map((appt) => {  
          
-          const utcDate = new Date(appt.date);
-
-          const date = new Date(appt.date);
-
-          const localDate = new Date(utcDate.getTime() + (3 * 60 * 60 * 1000));
-
+          const localDate = new Date(appt.date);
          
          return {
          id: appt.id,

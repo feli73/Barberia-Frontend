@@ -33,9 +33,9 @@ useEffect(() => {
 const formatDate = (dateString) => {
   const date = new Date(dateString);
 
-  return `${date.toLocaleDateString("es-AR")} ${date.getUTCHours()
+  return `${date.toLocaleDateString("es-AR")} ${date.getHours()
     .toString()
-    .padStart(2, "0")}:${date.getUTCMinutes()
+    .padStart(2, "0")}:${date.getMinutes()
     .toString()
     .padStart(2, "0")}`;
 };
