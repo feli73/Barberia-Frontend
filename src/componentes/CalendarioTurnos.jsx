@@ -53,7 +53,6 @@ useEffect(() => {
     
     
     try { 
-      const token = localStorage.getItem('token');
       const response = await fetch(`${import.meta.env.VITE_BACKEND_API_URL}/api/appointment`, {
         credentials: "include",
       });

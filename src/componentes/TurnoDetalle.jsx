@@ -50,8 +50,7 @@ useEffect(()  =>  {
   if (!turno) return <p>No se encontró el turno.</p>;
 
 
-const fechaUTC = new Date(turno.date);
-const fechaLocal = new Date(fechaUTC.getTime() + (3 * 60 * 60 * 1000) );
+const fecha = new Date(turno.date);
 
 
 return (
@@ -61,7 +60,7 @@ return (
        <h2>Detalle del turno</h2>
        <p><strong>Cliente</strong> {turno.userId?.first_name} -  {turno.userId?.last_name} </p>
        <p><strong>Email</strong> {turno.userId?.email} </p>
-       <p><strong>Fecha</strong> {fechaLocal.toLocaleString("es-AR")} </p>
+       <p><strong>Fecha</strong> {fecha.toLocaleString("es-AR")} </p>
        <p><strong>Estado</strong>  {turno.status} </p>
        
     </div>
