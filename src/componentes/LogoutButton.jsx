@@ -21,20 +21,18 @@ function LogoutButton(){
 
  });
 
- const data = await res.json();
 
  
- if(data.status === 'success'){
+  
+    navigate("/");
+    
 
-    localStorage.removeItem('token');
 
-   navigate('/');
-
- }
+ 
 
   } catch(err) {
     console.error("Error logout", err);
-
+     navigate("/");
   }
 
 

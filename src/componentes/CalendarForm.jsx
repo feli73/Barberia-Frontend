@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 function CalendarForm() {
  const [horarioSeleccionado, setHorarioSeleccionado] = useState('09:00');
@@ -8,7 +9,7 @@ function CalendarForm() {
 
 
   
-
+ const navigate = useNavigate();
 
    async function handleEnviar(e){
 
@@ -32,7 +33,7 @@ function CalendarForm() {
 
 
     try {
-         const token = localStorage.getItem('token');
+        
 
     const response = await fetch(`${import.meta.env.VITE_BACKEND_API_URL}/api/appointment/`, {
 
@@ -49,6 +50,12 @@ function CalendarForm() {
        body: JSON.stringify({ date: fechaCompleta }) ,
 
      });
+
+        if (response.status === 401) {
+        alert("Tu sesión expiró. Iniciá sesión nuevamente.");  
+        navigate("/");
+        return;
+      }
 
 
      const data = await response.json();

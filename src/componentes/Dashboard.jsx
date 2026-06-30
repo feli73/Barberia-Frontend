@@ -3,8 +3,17 @@ import CalendarioTurnos from './CalendarioTurnos';
 import { useState, useEffect } from 'react';
 import { useContext } from 'react';
 import LogoutButton from './LogoutButton';
+import { useNavigate } from 'react-router-dom';
+
+
+
+
 
 function Dashboard() {
+
+  const navigate = useNavigate();
+
+
  const location = useLocation();
  const { name } = location.state || {} ;
  const [ eliminarTurnoMensaje, setEliminarTurnoMensaje ] = useState('');
@@ -18,12 +27,18 @@ useEffect(() => {
       { credentials: "include" }
     );
 
+    if (res.status === 401) {
+        alert("Tu sesión expiró. Iniciá sesión nuevamente.");
+        navigate("/");
+        return;
+      }
+
     const data = await res.json();
     setMisTurnos(data.payload || []);
   };
 
   fetchTurnos();
-}, []);
+}, [navigate]);
 
 
 

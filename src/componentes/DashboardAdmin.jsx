@@ -2,6 +2,7 @@ import { useLocation } from 'react-router-dom';
 import { useState } from 'react';
 import CalendarioTurnos from './CalendarioTurnos';
 import LogoutButton from './LogoutButton';
+import { useNavigate } from 'react-router-dom';
 
 function DashboardAdmin() {
  const [ email, setEmail ] = useState(''); 
@@ -10,6 +11,7 @@ function DashboardAdmin() {
  const [lastName, setLastName] = useState('');
  const [users , setUsers] = useState([]);
  const[message, setMessage] = useState('');
+ const navigate = useNavigate()
 
 
 
@@ -24,16 +26,27 @@ function DashboardAdmin() {
 
 async function handleDeleteById(userId) {
   
+
 try {
   const res = await fetch(`${import.meta.env.VITE_BACKEND_API_URL}/api/user/${userId}`, {
    method: 'DELETE',
    credentials: 'include'
   });
 
+ 
+    if (res.status === 401) {
+        alert("Tu sesión expiró. Iniciá sesión nuevamente.");
+        navigate("/");
+        return;
+      }
+
+
   if(res.ok) {
      alert("Usuario eliminado correctamente");
-      setUsers(users.filter(u => u._id !== userId));
+      setUsers(prev => prev.filter(u => u._id !== userId));
   }
+
+
 
 } catch (err) {
   console.error(err);
@@ -63,8 +76,15 @@ const normalizeText = (text) => {
 
  try {
    const res = await fetch(`${import.meta.env.VITE_BACKEND_API_URL}/api/user/search?name=${normalizedName}&lastName=${normalizedLastName}`);
+  
+   if (res.status === 401) {
+  alert("Tu sesión expiró. Iniciá sesión nuevamente.");
+  navigate("/");
+  return;
+}
+
+
    const data = await res.json();
-   console.log(data)
 
    setUsers(data.payload);
 
@@ -91,6 +111,12 @@ const normalizeText = (text) => {
      credentials: 'include'
 
      });
+
+     if (result.status === 401) {
+  alert("Tu sesión expiró. Iniciá sesión nuevamente.");
+  navigate("/");
+  return;
+}
 
     setMessage(`Se ah promovido el usuario ${user.first_name} - ${user.last_name} a administrador`)
 

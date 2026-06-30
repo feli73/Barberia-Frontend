@@ -56,6 +56,15 @@ useEffect(() => {
       const response = await fetch(`${import.meta.env.VITE_BACKEND_API_URL}/api/appointment`, {
         credentials: "include",
       });
+
+      if (response.status === 401) {
+        alert("Tu sesión expiró. Iniciá sesión nuevamente.");
+        navigate("/");
+        return;
+      }
+
+
+
       const data = await response.json();
 
       if (response.ok) {
@@ -74,6 +83,11 @@ useEffect(() => {
          }
           
         });
+
+
+
+
+
         setTurnos(mapped);
       } else {
         console.error("Error al traer turnos:", data.message);
@@ -81,6 +95,10 @@ useEffect(() => {
     } catch (err) {
       console.error("Error de conexión", err);
     }
+
+
+     
+
   }
 
   fetchAppointment();

@@ -18,6 +18,12 @@ useEffect(()  =>  {
   credentials: "include",
   });
 
+    if (res.status === 401) {
+      window.location.href = "/";
+      return;
+    }
+
+
   if(res.status === 403) {
     setTurno("forbidden");
     return;
