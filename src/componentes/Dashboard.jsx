@@ -17,6 +17,7 @@ function Dashboard() {
  const { name } = location.state || {} ;
  const [ eliminarTurnoMensaje, setEliminarTurnoMensaje ] = useState('');
  const [misTurnos, setMisTurnos] = useState([]);
+ const [refreshCalendar, setRefreshCalendar] = useState(0);
 
 
   const fetchTurnos = async () => {
@@ -43,7 +44,7 @@ useEffect(() => {
   fetchTurnos();
 
   
-}, [navigate]);
+}, []);
 
 
 
@@ -87,7 +88,8 @@ const formatDate = (dateString) => {
   if(result && result.ok) {
    
     await fetchTurnos();
-    setEliminarTurnoMensaje('Tu turno fue eliminado, gracias!')
+    setEliminarTurnoMensaje('Tu turno fue eliminado, gracias!');
+    setRefreshCalendar(prev => prev + 1);
 
   }
 
@@ -111,7 +113,7 @@ const formatDate = (dateString) => {
   
 
 
- <CalendarioTurnos role='user'  onTurnoChange={fetchTurnos}/>
+ <CalendarioTurnos role='user'  onTurnoChange={fetchTurnos} refreshCalendar={refreshCalendar}/>
 
  <br />
  <br />

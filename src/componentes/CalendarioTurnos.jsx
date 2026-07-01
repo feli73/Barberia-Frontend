@@ -39,7 +39,7 @@ const localizer = dateFnsLocalizer({
 }; 
 
 
-function CalendarioTurnos({ role, onTurnoChange }) {
+function CalendarioTurnos({ role, onTurnoChange, refreshCalendar }) {
   const [fecha, setFecha] = useState(new Date());
   const [ view, setView ] = useState('month');
   const navigate = useNavigate();
@@ -108,7 +108,7 @@ useEffect(() => {
   fetchAppointment();
 
 
-}, [role]);
+}, [role, refreshCalendar]);
 
 
 
