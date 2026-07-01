@@ -23,7 +23,15 @@ function LogoutButton(){
 
 
  
-  
+     if (res.status === 401) {
+      navigate("/");
+      return;
+    }
+
+    if (!res.ok) {
+      throw new Error("Error al cerrar sesión");
+    }
+
     navigate("/");
     
 
