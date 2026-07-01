@@ -19,8 +19,7 @@ function Dashboard() {
  const [ eliminarTurnoMensaje, setEliminarTurnoMensaje ] = useState('');
  const [misTurnos, setMisTurnos] = useState([]);
 
-useEffect(() => {
-  
+
   const fetchTurnos = async () => {
     const res = await fetch(
       `${import.meta.env.VITE_BACKEND_API_URL}/api/appointment/my/appointment`,
@@ -37,7 +36,14 @@ useEffect(() => {
     setMisTurnos(data.payload || []);
   };
 
+
+useEffect(() => {
+  
+ 
+
   fetchTurnos();
+
+  
 }, [navigate]);
 
 
@@ -59,9 +65,12 @@ const formatDate = (dateString) => {
 
  const handleEliminarTurno = async (id) => {
 
+    let result = null;
+
+
   try {
 
-    const result = await fetch(`${import.meta.env.VITE_BACKEND_API_URL}/api/appointment/${id}`, {
+     result = await fetch(`${import.meta.env.VITE_BACKEND_API_URL}/api/appointment/${id}`, {
    credentials: 'include',
 
    method: 'DELETE'
@@ -76,10 +85,10 @@ const formatDate = (dateString) => {
     
   }
    
-  if(result.ok) {
+  if(result && result.ok) {
    
-  setMisTurnos(prev => prev.filter(el => id !== el.id))  
-  setEliminarTurnoMensaje('Tu turno fue eliminado, gracias!')
+    await fetchTurnos();
+    setEliminarTurnoMensaje('Tu turno fue eliminado, gracias!')
 
   }
 

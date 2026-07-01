@@ -48,7 +48,6 @@ function CalendarioTurnos({ role }) {
 
 
 
-useEffect(() => {
   async function fetchAppointment() {
     
     
@@ -101,7 +100,14 @@ useEffect(() => {
 
   }
 
+
+
+useEffect(() => {
+  
+
   fetchAppointment();
+
+  
 }, [role]);
 
 
@@ -214,7 +220,7 @@ return (
         />
  
  
-     <CalendarForm />
+     <CalendarForm actualizarTurnos={fetchAppointment}/>
  
  
     </div>

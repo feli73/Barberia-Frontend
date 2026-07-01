@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-function CalendarForm() {
+function CalendarForm({ actualizarTurnos }) {
  const [horarioSeleccionado, setHorarioSeleccionado] = useState('09:00');
  const [ fechaSeleccionada, setFechaSeleccionada ] = useState(null);
  const [error , setError] = useState(null);
@@ -65,6 +65,9 @@ function CalendarForm() {
 
       setError(data.message);
       setMessage(null);
+
+     
+
       return;
     }
 
@@ -74,6 +77,8 @@ function CalendarForm() {
     setMessage(data.message || "Turno creado correctamente");
     console.log('Turno creado:', data);
    
+
+     await actualizarTurnos();
 
     } catch(err) {
       console.error('Error al crear turno:', err);
