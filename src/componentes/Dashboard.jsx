@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { useContext } from 'react';
 import LogoutButton from './LogoutButton';
 import { useNavigate } from 'react-router-dom';
-
+import CalendarioTurnos from './CalendarioTurnos';
 
 
 
@@ -98,6 +98,9 @@ const formatDate = (dateString) => {
 
 
 
+
+
+
  return (
 
   <div>
@@ -109,7 +112,7 @@ const formatDate = (dateString) => {
   
 
 
- <CalendarioTurnos role='user'/>
+ <CalendarioTurnos role='user'  onTurnoChange={fetchTurnos}/>
 
  <br />
  <br />
@@ -135,6 +138,7 @@ const formatDate = (dateString) => {
 
   <LogoutButton />
 
+  
 
   </div>
 

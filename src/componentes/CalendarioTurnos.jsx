@@ -39,7 +39,7 @@ const localizer = dateFnsLocalizer({
 }; 
 
 
-function CalendarioTurnos({ role }) {
+function CalendarioTurnos({ role, onTurnoChange }) {
   const [fecha, setFecha] = useState(new Date());
   const [ view, setView ] = useState('month');
   const navigate = useNavigate();
@@ -107,7 +107,7 @@ useEffect(() => {
 
   fetchAppointment();
 
-  
+
 }, [role]);
 
 
@@ -220,8 +220,13 @@ return (
         />
  
  
-     <CalendarForm actualizarTurnos={fetchAppointment}/>
+     <CalendarForm onSuccess={async () => {
+       await fetchAppointment(); // actualiza calendarioTurnos
+       await onTurnoChange?.();  // actualiza dashboard
+
+     }}/>
  
+  
  
     </div>
 
