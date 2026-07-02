@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom"
+import { useParams, useNavigate } from "react-router-dom"
 import { useEffect, useState } from "react"
 
 
@@ -6,6 +6,10 @@ function TurnoDetalle() {
 const { id } = useParams();
 const [ turno, setTurno ] = useState(null);
 const [ loading, setLoading ] = useState(true);
+const [error, setError] = useState("");
+
+const navigate = useNavigate();
+
 
 useEffect(()  =>  {    
 
@@ -19,7 +23,7 @@ useEffect(()  =>  {
   });
 
     if (res.status === 401) {
-      window.location.href = "/";
+      navigate("/");
       return;
     }
 
@@ -59,6 +63,59 @@ useEffect(()  =>  {
 const fecha = new Date(turno.date);
 
 
+
+async function handleDelete(){
+
+  if (!window.confirm("¿Seguro que querés eliminar este turno?")) {
+  return;  // Muestra automaticamente la opción de Aceptar o Cancelar
+}
+
+
+ try {
+
+  const res = await fetch(`${import.meta.env.VITE_BACKEND_API_URL}/api/appointment/${id}`, {
+
+    method: 'DELETE',
+    credentials: 'include'
+
+  });
+
+
+ if (res.status === 401) {
+      navigate("/");
+      return;
+    }
+
+
+  if(res.status === 403) {
+    setTurno("forbidden");
+    return;
+  }
+
+  if (res.status === 404) {
+    navigate("/dashboardadmin")
+    return;
+  }
+
+
+ if(res.ok){
+
+    navigate("/dashboardadmin");
+  }
+
+ }catch(err){
+
+   console.error("Error al eliminar el turno:", err );
+    setError("No se pudo eliminar el turno. Intentá nuevamente.");
+
+ }
+
+
+
+}
+
+
+
 return (
 
     <div>
@@ -68,7 +125,8 @@ return (
        <p><strong>Email</strong> {turno.userId?.email} </p>
        <p><strong>Fecha</strong> {fecha.toLocaleString("es-AR")} </p>
        <p><strong>Estado</strong>  {turno.status} </p>
-       
+       <button onClick={handleDelete}>Eliminar Turno</button>      
+       {error && <p style={{ color: "red" }}>{error}</p>}
     </div>
 
 )
